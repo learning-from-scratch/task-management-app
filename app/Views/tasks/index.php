@@ -6,7 +6,10 @@
    </div>
 
    <?php if (session()->getFlashdata('message')): ?>
-      <div class="alert alert-success"><?= session()->getFlashdata('message') ?></div>
+      <div class="alert alert-success alert-dismissible fade show" role="alert" id="alertMessage">
+         <?= session()->getFlashdata('message') ?>
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
    <?php endif; ?>
 
    <a href="/tasks/create" class="btn btn-primary mb-3">Add New Task</a>
@@ -70,3 +73,16 @@
 </div>
 
 <?= view('layouts/footer') ?>
+
+<script>
+   // Auto dismiss alerts after 5 seconds
+   document.addEventListener('DOMContentLoaded', function() {
+      const alert = document.getElementById('alertMessage');
+      if (alert) {
+         setTimeout(function() {
+            const bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+         }, 5000);
+      }
+   });
+</script>
