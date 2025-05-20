@@ -42,12 +42,8 @@ class TaskController extends BaseController
    {
       $input = $this->request->getPost();
 
-      if (!$this->validate([
-         'title'    => 'required|min_length[3]|max_length[150]',
-         'priority' => 'in_list[Low,Medium,High]',
-         'status'   => 'in_list[Pending,In Progress,Completed]'
-      ])) {
-         return view('tasks/create', ['validation' => $this->validator]);
+      if (!$this->taskModel->validate($input)) {
+         return view('tasks/create', ['validation' => $this->taskModel->errors()]);
       }
 
       $this->taskModel->save([
@@ -66,13 +62,9 @@ class TaskController extends BaseController
    {
       $input = $this->request->getPost();
 
-      if (!$this->validate([
-         'title'    => 'required|min_length[3]|max_length[150]',
-         'priority' => 'in_list[Low,Medium,High]',
-         'status'   => 'in_list[Pending,In Progress,Completed]'
-      ])) {
+      if (!$this->taskModel->validate($input)) {
          return view('tasks/create', [
-            'validation' => $this->validator,
+            'validation' => $this->taskModel->errors(),
             'task' => $this->taskModel->find($id)
          ]);
       }
